@@ -1,0 +1,12 @@
+pull_request_rules:
+  - name: automatic merge of bot 🤖 
+    conditions:
+      - author~=^dependabot(|-preview)\[bot\]$
+      - base=main
+      - check-success=android
+      - check-success=ios
+
+    actions:
+      merge:
+        method: squash
+        strict: smart

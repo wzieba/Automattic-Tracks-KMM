@@ -1,0 +1,49 @@
+name: Build and test
+
+on:
+  push:
+
+jobs:
+
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v1
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: static code analysis
+        run: ./gradlew lintKotlin
+      - name: build
+        run: ./gradlew :androidApp:buildDebug
+      - name: test
+        run: ./gradlew test
+
+  ios:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v1
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: static code analysis
+        run: ./gradlew lintKotlin
+      - name: Kotlin/Native unit tests
+        run: ./gradlew iosX64Test
+      - name: build and test
+        run: xcodebuild test -project iosApp/iosApp.xcodeproj -scheme iosApp -destination "platform=iOS Simulator,name=iPhone 11 Pro"
+
