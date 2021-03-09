@@ -9,6 +9,18 @@ plugins {
 }
 
 val iosFrameworkName = "shared"
+val kotlinVersion = "1.4.3-native-mt"
+
+android {
+    configurations {
+        create("androidTestApi")
+        create("androidTestDebugApi")
+        create("androidTestReleaseApi")
+        create("testApi")
+        create("testDebugApi")
+        create("testReleaseApi")
+    }
+}
 
 kotlin {
     android()
@@ -20,7 +32,15 @@ kotlin {
         }
     }
     sourceSets {
-        val commonMain by getting
+        val commonMain by getting {
+            dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinVersion") {
+                    version {
+                        strictly(kotlinVersion)
+                    }
+                }
+            }
+        }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test-common"))
@@ -30,6 +50,7 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation("com.google.android.material:material:1.3.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinVersion")
             }
         }
         val androidTest by getting {
