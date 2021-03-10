@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 internal interface LocalRepository {
     suspend fun schedule(event: TracksEvent)
-    fun observe(): Flow<TracksEvent>
+    fun observe(): Flow<List<TracksEvent>>
 }

@@ -3,15 +3,15 @@ package shared.internal.fakes
 import com.automattic.myapplication.shared.TracksEvent
 import com.automattic.myapplication.shared.internal.LocalRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 
 class FakeLocalRepository : LocalRepository {
 
-    private val emitter = MutableSharedFlow<TracksEvent>()
+    private val emitter = MutableStateFlow<List<TracksEvent>>(emptyList())
 
     override suspend fun schedule(event: TracksEvent) {
-        emitter.emit(event)
+        emitter.emit(emitter.value + event)
     }
 
-    override fun observe(): Flow<TracksEvent> = emitter
+    override fun observe(): Flow<List<TracksEvent>> = emitter
 }
