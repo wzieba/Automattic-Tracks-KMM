@@ -1,3 +1,3 @@
 package com.automattic.myapplication.shared
 
-interface TracksEvent
+data class TracksEvent(val name: String)

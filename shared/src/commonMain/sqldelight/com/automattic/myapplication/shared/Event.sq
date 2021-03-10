@@ -1,0 +1,18 @@
+CREATE TABLE event(
+                 id              INTEGER PRIMARY KEY,
+                 event_name      TEXT NOT NULL,
+                 user            TEXT NOT NULL,
+                 user_agent      TEXT,
+                 timestamp       INTEGER,
+                 retry_count     INTEGER DEFAULT 0,
+                 user_type       INTEGER DEFAULT 0,
+                 user_props      TEXT,
+                 device_info     TEXT,
+                 custom_props    TEXT
+);
+
+selectOldest:
+SELECT * FROM event ORDER BY id;
+
+insertEvent:
+INSERT INTO event(event_name, user, user_agent, timestamp, retry_count, user_type, user_props, device_info, custom_props) VALUES (?,?,?,?,?,?,?,?,?);
