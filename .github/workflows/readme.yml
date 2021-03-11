@@ -43,7 +43,7 @@ jobs:
       - name: static code analysis
         run: ./gradlew lintKotlin
       - name: Kotlin/Native unit tests
-        run: ./gradlew iosTest
+        run: ./gradlew iosX64Test
       - name: build and test
         run: xcodebuild test -project iosApp/iosApp.xcodeproj -scheme iosApp -destination "platform=iOS Simulator,name=iPhone 11 Pro"
 
