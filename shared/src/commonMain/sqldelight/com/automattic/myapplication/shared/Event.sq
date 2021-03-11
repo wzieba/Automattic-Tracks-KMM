@@ -16,3 +16,6 @@ SELECT * FROM event ORDER BY id;
 
 insertEvent:
 INSERT INTO event(event_name, user, user_agent, timestamp, retry_count, user_type, user_props, device_info, custom_props) VALUES (?,?,?,?,?,?,?,?,?);
+
+deleteAllEvents:
+DELETE FROM event;

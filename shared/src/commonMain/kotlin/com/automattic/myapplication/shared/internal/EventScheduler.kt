@@ -15,8 +15,10 @@ internal class EventScheduler(
 
     init {
         coroutineScope.launch {
-            localRepository.observe().collect { event ->
-                remoteRepository.send(event.first())
+            localRepository.observe().collect { events ->
+                if (events.isNotEmpty()) {
+                    remoteRepository.send(events.first())
+                }
             }
         }
     }

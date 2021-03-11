@@ -7,7 +7,6 @@ import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.flow.Flow
 import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.coroutineContext
 
 internal class Database(
     driverFactory: DriverFactory,
@@ -32,5 +31,9 @@ internal class Database(
             device_info = null,
             custom_props = null
         )
+    }
+
+    internal fun clear() {
+        dbQuery.deleteAllEvents()
     }
 }
