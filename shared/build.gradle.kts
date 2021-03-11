@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 plugins {
     kotlin("multiplatform")
+    kotlin("native.cocoapods")
     id("com.android.library")
     id("com.prof18.kmp.fatframework.cocoa") version "0.0.1"
     id("maven-publish")
@@ -25,12 +26,26 @@ android {
 
 kotlin {
     android()
-    ios {
-        binaries {
-            framework {
-                baseName = iosFrameworkName
+    cocoapods {
+        // Configure fields required by CocoaPods.
+        summary = "Some description for a Kotlin/Native module"
+        homepage = "Link to a Kotlin/Native module homepage"
+
+        // You can change the name of the produced framework.
+        // By default, it is the name of the Gradle project.
+        frameworkName = "my_framework"
+        pod("AFNetworking") {
+            source = git("https://github.com/AFNetworking/AFNetworking") {
+                tag = "4.0.0"
             }
         }
+    }
+    ios {
+//        binaries {
+//            framework {
+//                baseName = iosFrameworkName
+//            }
+//        }
     }
     sourceSets {
         val commonMain by getting {
