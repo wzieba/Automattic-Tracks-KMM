@@ -4,7 +4,7 @@ plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
     id("com.android.library")
-    id("com.prof18.kmp.fatframework.cocoa") version "0.0.1"
+    id("com.prof18.kmp.fatframework.cocoa")
     id("maven-publish")
     id("org.jmailen.kotlinter")
     id("com.squareup.sqldelight")
@@ -34,11 +34,11 @@ kotlin {
         // You can change the name of the produced framework.
         // By default, it is the name of the Gradle project.
         frameworkName = "my_framework"
-        pod("AFNetworking") {
-            source = git("https://github.com/AFNetworking/AFNetworking") {
-                tag = "4.0.0"
-            }
-        }
+//        pod("AFNetworking") {
+//            source = git("https://github.com/AFNetworking/AFNetworking") {
+//                tag = "4.0.0"
+//            }
+//        }
     }
     ios {
 //        binaries {
