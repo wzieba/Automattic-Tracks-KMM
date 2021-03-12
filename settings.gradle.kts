@@ -2,6 +2,8 @@ pluginManagement {
     plugins {
         id("org.jmailen.kotlinter") version "3.3.0"
         id("com.squareup.sqldelight") version "1.4.4"
+        kotlin("multiplatform") version "1.4.31"
+        kotlin("native.cocoapods") version "1.4.31"
     }
     repositories {
         google()
