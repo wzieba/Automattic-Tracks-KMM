@@ -44,7 +44,6 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.6
-      - run: cat /Users/wzieba/Automattic-Tracks-KMM/iosApp/Pods/Target Support Files/shared/shared.debug.xcconfig
       - name: install cocoapods dependencies
         run: |
           gem install cocoapods --pre
