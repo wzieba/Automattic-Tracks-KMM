@@ -1,0 +1,6 @@
+target 'iosApp' do
+  use_frameworks!
+
+  pod 'shared', :path => '/Users/wzieba/Automattic-Tracks-KMM/shared'
+
+end

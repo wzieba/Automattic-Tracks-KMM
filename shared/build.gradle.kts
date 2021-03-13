@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 plugins {
     kotlin("multiplatform")
+    kotlin("native.cocoapods")
     id("com.android.library")
     id("com.prof18.kmp.fatframework.cocoa") version "0.0.1"
     id("maven-publish")
@@ -23,6 +24,9 @@ android {
     }
 }
 
+// CocoaPods requires the podspec to have a version.
+version = "1.0"
+
 kotlin {
     android()
     // https://github.com/cashapp/sqldelight/issues/2044
@@ -32,10 +36,11 @@ kotlin {
         else
             ::iosX64
     iOSTarget("ios") {
-        binaries {
-            framework {
-                baseName = iosFrameworkName
-            }
+        cocoapods {
+            summary = "Tracks library"
+            homepage = "https://github.com/JetBrains/kotlin"
+            ios.deploymentTarget = "13.2"
+            podfile = project.file("../iosApp/Podfile")
         }
     }
     sourceSets {
@@ -107,18 +112,6 @@ sqldelight {
         this.packageName = "com.automattic.myapplication.shared"
     }
 }
-
-val packForXcode by tasks.creating(Sync::class) {
-    group = "build"
-    val mode = System.getenv("CONFIGURATION") ?: "DEBUG"
-    val framework = kotlin.targets.getByName<KotlinNativeTarget>("ios").binaries.getFramework(mode)
-    inputs.property("mode", mode)
-    dependsOn(framework.linkTask)
-    val targetDir = File(buildDir, "xcode-frameworks")
-    from({ framework.outputDirectory })
-    into(targetDir)
-}
-tasks.getByName("build").dependsOn(packForXcode)
 
 fatFrameworkCocoaConfig {
     fatFrameworkName = iosFrameworkName
