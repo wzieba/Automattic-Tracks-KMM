@@ -2,15 +2,15 @@ PODS:
   - shared (1.0)
 
 DEPENDENCIES:
-  - shared (from `/Users/wzieba/Automattic-Tracks-KMM/shared`)
+  - shared (from `../shared`)
 
 EXTERNAL SOURCES:
   shared:
-    :path: "/Users/wzieba/Automattic-Tracks-KMM/shared"
+    :path: "../shared"
 
 SPEC CHECKSUMS:
   shared: 80870394a5c6cacfe65058901734a74c7b2ebc22
 
-PODFILE CHECKSUM: d7cd0b0ee7bcae59dfd3af94f261d87168c21935
+PODFILE CHECKSUM: 38a10cb4556efdf78c91bb08fd77358a37e9b468
 
 COCOAPODS: 1.10.1
