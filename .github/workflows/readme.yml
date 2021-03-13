@@ -40,18 +40,11 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
-      - name: configure ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 2.6
-      - name: install cocoapods dependencies
-        run: |
-          gem install cocoapods --pre
-          gem install cocoapods-generate
-          #      - name: static code analysis
-          #run: ./gradlew lintKotlin
-          #- name: Kotlin/Native unit tests
-          #run: ./gradlew iosTest
+      - run: gem install cocoapods-generate
+      - name: static code analysis
+        run: ./gradlew lintKotlin
+      - name: Kotlin/Native unit tests
+        run: ./gradlew iosTest
       - name: build and test
         run: xcodebuild test -workspace iosApp/iosApp.xcworkspace -scheme iosApp -destination "platform=iOS Simulator,name=iPhone 11 Pro"
 
