@@ -40,10 +40,11 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
+      - run: gem install cocoapods-generate
       - name: static code analysis
         run: ./gradlew lintKotlin
       - name: Kotlin/Native unit tests
-        run: ./gradlew iosX64Test
+        run: ./gradlew iosTest
       - name: build and test
-        run: xcodebuild test -project iosApp/iosApp.xcodeproj -scheme iosApp -destination "platform=iOS Simulator,name=iPhone 11 Pro"
+        run: xcodebuild test -workspace iosApp/iosApp.xcworkspace -scheme iosApp -destination "platform=iOS Simulator,name=iPhone 11 Pro"
 
