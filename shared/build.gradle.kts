@@ -4,7 +4,7 @@ plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
     id("com.android.library")
-    id("com.prof18.kmp.fatframework.cocoa") version "0.0.1"
+    id("com.prof18.kmp.fatframework.cocoa") version "0.2.1"
     id("maven-publish")
     id("org.jmailen.kotlinter")
     id("com.squareup.sqldelight")
