@@ -51,7 +51,7 @@ kotlin {
                         strictly(kotlinVersion)
                     }
                 }
-                implementation("com.squareup.sqldelight:coroutines-extensions:1.4.4")
+                implementation("com.squareup.sqldelight:coroutines-extensions:1.5.1")
             }
         }
         val commonTest by getting {
