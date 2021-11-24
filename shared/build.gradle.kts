@@ -65,7 +65,7 @@ kotlin {
             dependencies {
                 implementation("com.google.android.material:material:1.3.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinVersion")
-                implementation("com.squareup.sqldelight:android-driver:1.4.4")
+                implementation("com.squareup.sqldelight:android-driver:1.5.3")
             }
         }
         val androidTest by getting {
