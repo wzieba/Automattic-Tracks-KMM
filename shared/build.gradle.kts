@@ -11,7 +11,7 @@ plugins {
 }
 
 val iosFrameworkName = "shared"
-val kotlinVersion = "1.4.2-native-mt"
+val kotlinVersion = "1.6.1-native-mt"
 
 android {
     configurations {
