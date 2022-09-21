@@ -1,5 +1,5 @@
 pluginManagement {
-    val agp = "7.0.0-alpha09"
+    val agp = "8.0.0-alpha01"
     val kotlin = "1.4.20"
 
     plugins {
