@@ -78,7 +78,7 @@ kotlin {
         }
         val iosMain by getting {
             dependencies {
-                implementation("com.squareup.sqldelight:native-driver:1.4.4")
+                implementation("com.squareup.sqldelight:native-driver:1.5.4")
             }
         }
         val iosTest by getting
