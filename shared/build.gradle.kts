@@ -56,7 +56,7 @@ kotlin {
         }
         val commonTest by getting {
             dependencies {
-                implementation("app.cash.turbine:turbine:0.4.0")
+                implementation("app.cash.turbine:turbine:0.12.1")
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
             }
