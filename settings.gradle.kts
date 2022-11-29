@@ -1,6 +1,6 @@
 pluginManagement {
     val agp = "7.0.0-alpha09"
-    val kotlin = "1.4.20"
+    val kotlin = "1.7.22"
 
     plugins {
         id("com.android.application") version agp
