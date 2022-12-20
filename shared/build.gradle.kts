@@ -71,7 +71,7 @@ kotlin {
         val androidTest by getting {
             dependencies {
                 implementation("androidx.test:core:1.3.0")
-                implementation("org.robolectric:robolectric:4.5.1")
+                implementation("org.robolectric:robolectric:4.9.1")
                 implementation(kotlin("test-junit"))
                 implementation("junit:junit:4.13.2")
             }
