@@ -63,7 +63,7 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                implementation("com.google.android.material:material:1.3.0")
+                implementation("com.google.android.material:material:1.8.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinVersion")
                 implementation("com.squareup.sqldelight:android-driver:1.4.4")
             }
