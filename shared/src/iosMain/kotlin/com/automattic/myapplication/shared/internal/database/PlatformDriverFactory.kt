@@ -1,8 +1,8 @@
 package com.automattic.myapplication.shared.internal.database
 
-import com.automattic.myapplication.shared.EventsDatabase
-import com.squareup.sqldelight.db.SqlDriver
-import com.squareup.sqldelight.drivers.native.NativeSqliteDriver
+import app.cash.sqldelight.db.SqlDriver
+import app.cash.sqldelight.driver.native.NativeSqliteDriver
+import com.automattic.EventsDatabase
 
 internal actual class PlatformDriverFactory : DriverFactory {
     override fun createDriver(): SqlDriver {

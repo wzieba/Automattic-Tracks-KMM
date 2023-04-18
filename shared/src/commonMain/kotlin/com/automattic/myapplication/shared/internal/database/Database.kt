@@ -1,10 +1,10 @@
 package com.automattic.myapplication.shared.internal.database
 
+import app.cash.sqldelight.coroutines.asFlow
+import app.cash.sqldelight.coroutines.mapToList
+import com.automattic.EventsDatabase
 import com.automattic.myapplication.shared.Event
-import com.automattic.myapplication.shared.EventsDatabase
 import com.automattic.myapplication.shared.TracksEvent
-import com.squareup.sqldelight.runtime.coroutines.asFlow
-import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.flow.Flow
 import kotlin.coroutines.CoroutineContext
 

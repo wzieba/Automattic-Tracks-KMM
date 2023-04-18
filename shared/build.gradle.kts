@@ -1,128 +1,96 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 
 plugins {
     kotlin("multiplatform")
-    kotlin("native.cocoapods")
     id("com.android.library")
-    id("com.prof18.kmp.fatframework.cocoa") version "0.0.1"
-    id("maven-publish")
-    id("org.jmailen.kotlinter")
-    id("com.squareup.sqldelight")
+    id("app.cash.sqldelight")
 }
 
-val iosFrameworkName = "shared"
-val kotlinVersion = "1.4.2-native-mt"
-
-android {
-    configurations {
-        create("androidTestApi")
-        create("androidTestDebugApi")
-        create("androidTestReleaseApi")
-        create("testApi")
-        create("testDebugApi")
-        create("testReleaseApi")
-    }
-}
-
-// CocoaPods requires the podspec to have a version.
-version = "1.0"
-
-kotlin {
-    android()
-    // https://github.com/cashapp/sqldelight/issues/2044
-    val iOSTarget: (String, KotlinNativeTarget.() -> Unit) -> KotlinNativeTarget =
-        if (System.getenv("SDK_NAME")?.startsWith("iphoneos") == true)
-            ::iosArm64
-        else
-            ::iosX64
-    iOSTarget("ios") {
-        cocoapods {
-            summary = "Tracks library"
-            homepage = "https://github.com/JetBrains/kotlin"
-            ios.deploymentTarget = "13.2"
-            podfile = project.file("../iosApp/Podfile")
+sqldelight {
+    databases {
+        create("EventsDatabase") {
+            packageName.set("com.automattic")
         }
     }
+}
+
+kotlin {
+    android {
+        compilations.all {
+            kotlinOptions {
+                jvmTarget = "1.8"
+            }
+        }
+    }
+
+    val xcf = XCFramework()
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach {
+        it.binaries.framework {
+            baseName = "shared"
+            xcf.add(this)
+        }
+    }
+
     sourceSets {
+        val ktorVersion = "2.2.4"
+        val sqlDelightVersion = "2.0.0-alpha05"
+
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinVersion") {
-                    version {
-                        strictly(kotlinVersion)
-                    }
-                }
-                implementation("com.squareup.sqldelight:coroutines-extensions:1.4.4")
+                implementation("app.cash.sqldelight:coroutines-extensions:$sqlDelightVersion")
+                implementation("io.ktor:ktor-client-core:$ktorVersion")
+                implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
+                implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+
             }
         }
         val commonTest by getting {
             dependencies {
-                implementation("app.cash.turbine:turbine:0.4.0")
-                implementation(kotlin("test-common"))
-                implementation(kotlin("test-annotations-common"))
+                implementation("app.cash.turbine:turbine:0.12.3")
+                implementation(kotlin("test"))
             }
         }
         val androidMain by getting {
             dependencies {
-                implementation("com.google.android.material:material:1.3.0")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinVersion")
-                implementation("com.squareup.sqldelight:android-driver:1.4.4")
+                implementation("app.cash.sqldelight:android-driver:$sqlDelightVersion")
+                implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
             }
         }
-        val androidTest by getting {
+        val androidUnitTest by getting
+        val iosX64Main by getting
+        val iosArm64Main by getting
+        val iosSimulatorArm64Main by getting
+        val iosMain by creating {
+            dependsOn(commonMain)
+            iosX64Main.dependsOn(this)
+            iosArm64Main.dependsOn(this)
+            iosSimulatorArm64Main.dependsOn(this)
             dependencies {
-                implementation("androidx.test:core:1.3.0")
-                implementation("org.robolectric:robolectric:4.5.1")
-                implementation(kotlin("test-junit"))
-                implementation("junit:junit:4.13.2")
+                implementation("app.cash.sqldelight:native-driver:$sqlDelightVersion")
+                implementation("io.ktor:ktor-client-darwin:$ktorVersion")
             }
         }
-        val iosMain by getting {
-            dependencies {
-                implementation("com.squareup.sqldelight:native-driver:1.4.4")
-            }
-        }
-        val iosTest by getting
-
-        matching {
-            it.name.endsWith("Test")
-        }.configureEach {
-            languageSettings.useExperimentalAnnotation("kotlin.time.ExperimentalTime")
-        }
-
-        all {
-            languageSettings.apply {
-                useExperimentalAnnotation("kotlinx.coroutines.ExperimentalCoroutinesApi")
-                useExperimentalAnnotation("kotlinx.coroutines.ObsoleteCoroutinesApi")
-            }
+        val iosX64Test by getting
+        val iosArm64Test by getting
+        val iosSimulatorArm64Test by getting
+        val iosTest by creating {
+            dependsOn(commonTest)
+            iosX64Test.dependsOn(this)
+            iosArm64Test.dependsOn(this)
+            iosSimulatorArm64Test.dependsOn(this)
         }
     }
 }
 
 android {
-    compileSdkVersion(29)
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    namespace = "com.automattic"
+    compileSdk = 33
     defaultConfig {
-        minSdkVersion(24)
-        targetSdkVersion(29)
-    }
-}
-
-sqldelight {
-    database("EventsDatabase") {
-        this.packageName = "com.automattic.myapplication.shared"
-    }
-}
-
-fatFrameworkCocoaConfig {
-    fatFrameworkName = iosFrameworkName
-    outputPath = "$rootDir/../test-dest"
-    versionName = "1.2-SNAPSHOT"
-
-    cocoaPodRepoInfo {
-        summary = "This is a test KMP framework"
-        homepage = "https://github.com/wzieba/KMM-template"
-        license = "MIT"
-        authors = "\"user\" => \"mail@mail.com\""
-        gitUrl = "git@github.com:wzieba/KMM-template-cocoa.git"
+        minSdk = 24
     }
 }

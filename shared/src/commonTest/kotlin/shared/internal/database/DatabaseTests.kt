@@ -37,7 +37,7 @@ internal class DatabaseTests {
 
     fun `should emit empty list if there's no items`(): Unit = runBlocking {
         sut.observe().test {
-            assertTrue(expectItem().isEmpty())
+            assertTrue(expectMostRecentItem().isEmpty())
         }
     }
 
@@ -49,7 +49,7 @@ internal class DatabaseTests {
             }
 
             sut.observe().test {
-                assertTrue(expectItem().containsAll(listOf(eventA, eventB)))
+                assertTrue(expectMostRecentItem().containsAll(listOf(eventA, eventB)))
             }
         }
 
