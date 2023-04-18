@@ -1,3 +1,0 @@
-target 'iosApp' do
-  pod 'shared', :path => '../shared'
-end
