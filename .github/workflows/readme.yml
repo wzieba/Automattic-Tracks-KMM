@@ -19,12 +19,9 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
-      - name: static code analysis
-        run: ./gradlew lintKotlin
-      - name: build
-        run: ./gradlew :androidApp:buildDebug
-      - name: test
-        run: ./gradlew test
+      - run: ./gradlew check
+      - run: ./gradlew :androidApp:buildDebug
+      - run: ./gradlew test
 
   ios:
     runs-on: macos-latest
@@ -41,10 +38,7 @@ jobs:
         with:
           java-version: 11
       - run: gem install cocoapods-generate
-      - name: static code analysis
-        run: ./gradlew lintKotlin
-      - name: Kotlin/Native unit tests
-        run: ./gradlew iosTest
-      - name: build and test
-        run: xcodebuild test -workspace iosApp/iosApp.xcworkspace -scheme iosApp -destination "platform=iOS Simulator,name=iPhone 11 Pro"
+      - run: ./gradlew check
+      - run: ./gradlew iosX64Test
+      - run: xcodebuild test -workspace iosApp/iosApp.xcworkspace -scheme iosApp -destination "platform=iOS Simulator,name=iPhone 11 Pro"
 

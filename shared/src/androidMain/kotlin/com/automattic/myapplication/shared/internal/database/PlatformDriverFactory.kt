@@ -1,9 +1,9 @@
 package com.automattic.myapplication.shared.internal.database
 
 import android.content.Context
-import com.automattic.myapplication.shared.EventsDatabase
-import com.squareup.sqldelight.android.AndroidSqliteDriver
-import com.squareup.sqldelight.db.SqlDriver
+import app.cash.sqldelight.db.SqlDriver
+import app.cash.sqldelight.driver.android.AndroidSqliteDriver
+import com.automattic.EventsDatabase
 
 internal actual class PlatformDriverFactory(private val context: Context) : DriverFactory {
     override fun createDriver(): SqlDriver {
