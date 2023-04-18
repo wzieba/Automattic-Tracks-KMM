@@ -14,4 +14,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Tracks"
-include(":shared")
+include(":shared", ":androidApp", ":iosApp")

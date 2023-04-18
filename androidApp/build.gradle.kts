@@ -1,6 +1,5 @@
 plugins {
     id("com.android.application")
-    id("org.jmailen.kotlinter")
 }
 
 dependencies {
@@ -11,11 +10,11 @@ dependencies {
 }
 
 android {
-    compileSdkVersion(29)
+    namespace = "com.automattic.myapplication.androidApp"
+    compileSdkVersion(33)
     defaultConfig {
         applicationId = "com.automattic.myapplication.androidApp"
         minSdkVersion(24)
-        targetSdkVersion(29)
         versionCode = 1
         versionName = "1.0"
     }
