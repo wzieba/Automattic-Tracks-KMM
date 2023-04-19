@@ -37,6 +37,8 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 17
+      - run: gem install cocoapods-generate
       - run: ./gradlew check
       - run: ./gradlew iosX64Test
-      - run: cd iosApp && xcodebuild -scheme iosApp build
+      - run: xcodebuild test -workspace iosApp/iosApp.xcworkspace -scheme iosApp -destination "platform=iOS Simulator,name=iPhone 11 Pro"
+

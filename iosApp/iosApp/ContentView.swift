@@ -1,13 +1,10 @@
 import SwiftUI
-//import shared
+import shared
 
 
 struct ContentView: View {
     var body: some View {
-        Text(
-//            TracksEvent(name: "test event").name
-            "test"
-        )
+        Text(TracksEvent(name: "test event").name)
     }
 }
 
