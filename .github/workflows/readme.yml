@@ -40,4 +40,5 @@ jobs:
       - run: gem install cocoapods-generate
       - run: ./gradlew check
       - run: ./gradlew iosX64Test
-      - run: cd iosApp && xcodebuild -scheme iosApp build
+      - run: xcodebuild clean build -workspace "iosApp.xcworkspace" -scheme "iosApp" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED="NO" | xcpretty --c
+        working-directory: iosApp
