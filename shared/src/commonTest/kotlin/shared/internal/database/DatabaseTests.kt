@@ -1,7 +1,7 @@
 package shared.internal.database
 
 import app.cash.turbine.test
-import com.automattic.myapplication.shared.TracksEvent
+import com.automattic.myapplication.shared.Event
 import com.automattic.myapplication.shared.internal.SqlDelightRepository
 import com.automattic.myapplication.shared.internal.database.Database
 import com.automattic.myapplication.shared.internal.database.DriverFactory
@@ -10,6 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.runBlocking
+import shared.internal.fakes.fakeEvent
 import kotlin.test.assertTrue
 
 internal class DatabaseTests {
@@ -55,7 +56,7 @@ internal class DatabaseTests {
 
     fun `should emit items that are stored in database and the new one that will come`(): Unit =
         runBlocking {
-            var items = emptyList<TracksEvent>()
+            var items = emptyList<Event>()
 
             database.apply {
                 insertEvent(eventA)
@@ -76,7 +77,7 @@ internal class DatabaseTests {
         }
 
     companion object {
-        fun event(name: String = "") = TracksEvent(name)
+        fun event(name: String = "") = fakeEvent.copy(name = name)
 
         val eventA = event("A")
         val eventB = event("B")

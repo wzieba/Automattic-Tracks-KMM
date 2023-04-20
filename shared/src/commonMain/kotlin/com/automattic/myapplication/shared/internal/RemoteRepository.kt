@@ -1,7 +1,7 @@
 package com.automattic.myapplication.shared.internal
 
-import com.automattic.myapplication.shared.TracksEvent
+import com.automattic.myapplication.shared.Event
 
 internal interface RemoteRepository {
-    suspend fun send(event: TracksEvent)
+    suspend fun send(event: Event)
 }

@@ -1,13 +1,16 @@
 package com.automattic.myapplication.shared
 
+import com.automattic.myapplication.shared.internal.EventComposer
 import com.automattic.myapplication.shared.internal.EventScheduler
 import kotlinx.coroutines.MainScope
+import kotlin.jvm.JvmOverloads
 import kotlin.native.concurrent.ThreadLocal
 
 @ThreadLocal
 object Tracks {
 
-    private var tracker: EventScheduler? = null
+    private lateinit var tracker: EventScheduler
+    private lateinit var eventComposer: EventComposer
 
     fun initialize(userProvider: UserProvider) {
         tracker = EventScheduler(
@@ -18,7 +21,14 @@ object Tracks {
         )
     }
 
-    fun track(tracksEvent: TracksEvent) {
-        tracker?.schedule(tracksEvent)
+    @JvmOverloads
+    fun track(
+        eventName: String,
+        customProperties: String = "",
+        userId: String = "",
+    ) {
+        val event = eventComposer.compose(eventName)
+
+        tracker.schedule(event)
     }
 }

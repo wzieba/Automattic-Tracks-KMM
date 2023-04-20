@@ -4,6 +4,7 @@ plugins {
     kotlin("multiplatform")
     id("com.android.library")
     id("app.cash.sqldelight")
+    id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 sqldelight {

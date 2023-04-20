@@ -1,9 +1,8 @@
 package com.automattic.myapplication.shared.internal
 
-import com.automattic.myapplication.shared.TracksEvent
+import com.automattic.myapplication.shared.Event
 import com.automattic.myapplication.shared.UserProvider
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 internal class EventScheduler(
@@ -23,7 +22,7 @@ internal class EventScheduler(
         }
     }
 
-    fun schedule(event: TracksEvent) {
+    fun schedule(event: Event) {
         coroutineScope.launch {
             localRepository.schedule(event)
         }
