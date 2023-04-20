@@ -15,17 +15,16 @@ internal class SqlDelightRepository(private val database: Database) : LocalRepos
 
     override fun observe(): Flow<List<Event>> = database.observeOldest().map { events ->
         events.map { event ->
-
             Event(
-                0,
-                "",
-                "",
-                UserType.ANON,
-                "",
-                0,
-                JsonObject(emptyMap()),
-                JsonObject(emptyMap()),
-                JsonObject(emptyMap())
+                id = event.id,
+                name = event.name,
+                userId = event.userId,
+                userType = event.userType,
+                userAgent = event.userAgent,
+                creationTimestamp = event.creationTimestamp,
+                userProperties = event.userProperties,
+                deviceInfo = event.deviceInfo,
+                customProperties = event.customProperties,
             )
         }
     }

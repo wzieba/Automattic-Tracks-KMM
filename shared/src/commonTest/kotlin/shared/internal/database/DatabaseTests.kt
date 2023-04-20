@@ -77,10 +77,10 @@ internal class DatabaseTests {
         }
 
     companion object {
-        fun event(name: String = "") = fakeEvent.copy(name = name)
+        fun event(id: Long = 0, name: String = "") = fakeEvent.copy(id = id, name = name)
 
-        val eventA = event("A")
-        val eventB = event("B")
-        val eventC = event("C")
+        val eventA = event(1, "A")
+        val eventB = event(2, "B")
+        val eventC = event(3, "C")
     }
 }

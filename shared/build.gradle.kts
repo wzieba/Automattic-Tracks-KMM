@@ -62,7 +62,14 @@ kotlin {
                 implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
             }
         }
-        val androidUnitTest by getting
+        val androidUnitTest by getting {
+            dependencies {
+                dependsOn(commonTest)
+                implementation("androidx.test:core-ktx:1.5.0")
+                implementation("junit:junit:4.13.2")
+                implementation("org.robolectric:robolectric:4.10")
+            }
+        }
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
@@ -94,4 +101,6 @@ android {
     defaultConfig {
         minSdk = 24
     }
+}
+dependencies {
 }

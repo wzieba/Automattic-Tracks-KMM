@@ -4,20 +4,20 @@ import kotlinx.serialization.json.JsonObject;
 CREATE TABLE eventEntity(
                  id              INTEGER PRIMARY KEY,
                  name      TEXT NOT NULL,
-                 userId            TEXT ,
-                 userType      TEXT AS UserType ,
-                 userAgent TEXT ,
-                 creationTimestamp       INTEGER,
-                 user_properties      TEXT AS JsonObject,
-                 device_info     TEXT,
-                 custom_props    TEXT
+                 userId            TEXT NOT NULL ,
+                 userType      TEXT AS UserType NOT NULL,
+                 userAgent TEXT NOT NULL,
+                 creationTimestamp       INTEGER NOT NULL,
+                 userProperties      TEXT AS JsonObject NOT NULL,
+                 deviceInfo     TEXT AS JsonObject NOT NULL,
+                 customProperties    TEXT AS JsonObject NOT NULL
 );
 
 selectOldest:
 SELECT * FROM eventEntity ORDER BY id;
 
 insertEvent:
-INSERT INTO eventEntity(name, userId, userType, creationTimestamp, user_properties, device_info, custom_props) VALUES (?,?,?,?,?,?,?);
+INSERT INTO eventEntity(name, userId, userType, userAgent, creationTimestamp, userProperties, deviceInfo, customProperties) VALUES (?, ?,?,?,?,?,?,?);
 
 deleteAllEvents:
 DELETE FROM eventEntity;

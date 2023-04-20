@@ -7,13 +7,11 @@ import app.cash.sqldelight.coroutines.mapToList
 import com.automattic.EventsDatabase
 import com.automattic.myapplication.shared.Event
 import com.automattic.myapplication.shared.EventEntity
-import io.ktor.http.ContentType.Application.Json
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.encodeToJsonElement
-import kotlinx.serialization.json.jsonObject
 import kotlin.coroutines.CoroutineContext
 
 internal class Database(
@@ -21,36 +19,41 @@ internal class Database(
     private val coroutineContext: CoroutineContext,
 ) {
 
+    object JsonObjectAdapter : ColumnAdapter<JsonObject, String> {
+        override fun decode(databaseValue: String): JsonObject {
+            return Json.decodeFromString(databaseValue)
+        }
+
+        override fun encode(value: JsonObject): String {
+            return Json.encodeToString(value)
+        }
+
+    }
+
     private val database = EventsDatabase(
         driver = driverFactory.createDriver(),
         eventEntityAdapter = EventEntity.Adapter(
             userTypeAdapter = EnumColumnAdapter(),
-            user_propertiesAdapter = object : ColumnAdapter<JsonObject, String> {
-                override fun decode(databaseValue: String): JsonObject {
-                    return Json{}.encodeToJsonElement(databaseValue).jsonObject
-                }
-
-                override fun encode(value: JsonObject): String {
-                    return value.toString()
-                }
-
-            }
+            userPropertiesAdapter = JsonObjectAdapter,
+            deviceInfoAdapter = JsonObjectAdapter,
+            customPropertiesAdapter = JsonObjectAdapter,
         )
     )
     private val dbQuery = database.eventQueries
 
-    internal fun observeOldest(): Flow<List<Event>> =
-        dbQuery.selectOldest().asFlow().mapToList(coroutineContext).map { emptyList() }
+    internal fun observeOldest(): Flow<List<EventEntity>> =
+        dbQuery.selectOldest().asFlow().mapToList(coroutineContext)
 
     internal fun insertEvent(tracksEvent: Event) {
         dbQuery.insertEvent(
-            name = "test event",
-            userId = null,
-            userType = null,
-            creationTimestamp = null,
-            user_properties = null,
-            device_info = null,
-            custom_props = null,
+            name = tracksEvent.name,
+            userId = tracksEvent.userId,
+            userType = tracksEvent.userType,
+            userAgent = tracksEvent.userAgent,
+            creationTimestamp = tracksEvent.creationTimestamp,
+            userProperties = tracksEvent.userProperties,
+            deviceInfo = tracksEvent.deviceInfo,
+            customProperties = tracksEvent.customProperties,
         )
     }
 
