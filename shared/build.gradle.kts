@@ -52,7 +52,7 @@ kotlin {
         }
         val commonTest by getting {
             dependencies {
-                implementation("app.cash.turbine:turbine:0.13.0")
+                implementation("app.cash.turbine:turbine:1.0.0")
                 implementation(kotlin("test"))
             }
         }
