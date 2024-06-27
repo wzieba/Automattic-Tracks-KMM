@@ -65,7 +65,7 @@ kotlin {
         val androidUnitTest by getting {
             dependencies {
                 dependsOn(commonTest)
-                implementation("androidx.test:core-ktx:1.5.0")
+                implementation("androidx.test:core-ktx:1.6.1")
                 implementation("junit:junit:4.13.2")
                 implementation("org.robolectric:robolectric:4.12.1")
             }
